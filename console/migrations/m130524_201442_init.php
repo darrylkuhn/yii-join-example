@@ -18,6 +18,7 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
             'state' => $this->string(),
+            'active' => $this->integer()->notNull()->defaultValue(0),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'deleted_at' => $this->timestamp(),

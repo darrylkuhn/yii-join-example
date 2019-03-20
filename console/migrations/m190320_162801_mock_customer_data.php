@@ -35,6 +35,10 @@ class m190320_162801_mock_customer_data extends Migration
             $v = new Vehicle;
             $v->name = "Vehicle{$vehicleCount}";
             $v->state = '{"latitude":{"value":32.699402,"ts":"2016-05-30 01:00:46"},"longitude":{"value":-76.57714,"ts":"2016-05-30 01:00:46"},"zone1":{"value":12.66,"ts":"2016-05-30 01:00:46"},"zone2":{"value":7,"ts":"2016-05-30 01:00:46"}}';
+
+            // Activate just a few vehicles
+            $v->active = $vehicleCount < 5 ? true : false;
+
             $v->save();
             $vehicleCount++;
         }
