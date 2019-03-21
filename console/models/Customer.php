@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "customers".
@@ -13,7 +15,7 @@ use Yii;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Customer extends \yii\db\ActiveRecord
+class Customer extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -40,7 +42,16 @@ class Customer extends \yii\db\ActiveRecord
             ->via('customerVehicles');
     }
 
-     /**
+    /**
+     * @return ActiveQuery
+     */
+    public function getVehiclesViaTable()
+    {
+        return $this->hasMany(Vehicle::class, ['id' => 'vehicle_id'])
+            ->viaTable('customer_vehicles', ['customer_id' => 'id']);
+    }
+
+    /**
      * @return ActiveQuery
      */
     public function getVehiclesViaJoin()
