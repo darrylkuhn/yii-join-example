@@ -116,4 +116,94 @@ class LoadTestController extends Controller
         $this->stdout( 'Total execution time: ' . $this->ansiFormat($totalTime, Console::FG_GREEN) );
         $this->stdout("\n");
     }
+
+    public function actionLazyJoin()
+    {
+        $start = microtime( true );
+
+        $customers = Customer::find()->all();
+        $vehicles = [];
+        foreach($customers as $customer) {
+            $vehicles[] = $customer->getVehiclesViaJoin()
+                ->andWhere( ['active'=>true] )
+                ->all();
+        }
+
+        $totalTime = microtime( true ) - $start;
+
+        $this->stdout( 'Customers found: ' . $this->ansiFormat( count($customers), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $i = 0;
+        foreach($customers as $customer) {
+            $this->stdout( 'Customer Name: ' . $this->ansiFormat( $customer->name, Console::FG_GREEN) );
+            $this->stdout(", ");
+            $this->stdout( 'Active Vehicles: ' . $this->ansiFormat( count($vehicles[$i]), Console::FG_GREEN) );
+            $this->stdout("\n");
+            $i++;
+        }
+        $this->stdout( 'Memory Usage in bytes: ' . $this->ansiFormat( memory_get_usage(), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $this->stdout( 'Total execution time: ' . $this->ansiFormat($totalTime, Console::FG_GREEN) );
+        $this->stdout("\n");
+    }
+
+    public function actionLazyVia()
+    {
+        $start = microtime( true );
+
+        $customers = Customer::find()->all();
+        $vehicles = [];
+        foreach($customers as $customer) {
+            $vehicles[] = $customer->getVehicles()
+                ->andWhere( ['active'=>true] )
+                ->all();
+        }
+
+        $totalTime = microtime( true ) - $start;
+
+        $this->stdout( 'Customers found: ' . $this->ansiFormat( count($customers), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $i = 0;
+        foreach($customers as $customer) {
+            $this->stdout( 'Customer Name: ' . $this->ansiFormat( $customer->name, Console::FG_GREEN) );
+            $this->stdout(", ");
+            $this->stdout( 'Active Vehicles: ' . $this->ansiFormat( count($vehicles[$i]), Console::FG_GREEN) );
+            $this->stdout("\n");
+            $i++;
+        }
+        $this->stdout( 'Memory Usage in bytes: ' . $this->ansiFormat( memory_get_usage(), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $this->stdout( 'Total execution time: ' . $this->ansiFormat($totalTime, Console::FG_GREEN) );
+        $this->stdout("\n");
+    }
+
+    public function actionLazyViaTable()
+    {
+        $start = microtime( true );
+
+        $customers = Customer::find()->all();
+        $vehicles = [];
+        foreach($customers as $customer) {
+            $vehicles[] = $customer->getVehiclesViaTable()
+                ->andWhere( ['active'=>true] )
+                ->all();
+        }
+
+        $totalTime = microtime( true ) - $start;
+
+        $this->stdout( 'Customers found: ' . $this->ansiFormat( count($customers), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $i = 0;
+        foreach($customers as $customer) {
+            $this->stdout( 'Customer Name: ' . $this->ansiFormat( $customer->name, Console::FG_GREEN) );
+            $this->stdout(", ");
+            $this->stdout( 'Active Vehicles: ' . $this->ansiFormat( count($vehicles[$i]), Console::FG_GREEN) );
+            $this->stdout("\n");
+            $i++;
+        }
+        $this->stdout( 'Memory Usage in bytes: ' . $this->ansiFormat( memory_get_usage(), Console::FG_GREEN) );
+        $this->stdout("\n");
+        $this->stdout( 'Total execution time: ' . $this->ansiFormat($totalTime, Console::FG_GREEN) );
+        $this->stdout("\n");
+    }
 }
